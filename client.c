@@ -13,10 +13,15 @@ void send(unsigned char signal, char *pid)
 			kill(pidd , SIGUSR1);
 		else
 			kill(pidd , SIGUSR2);
-		usleep(1000);
+		usleep(100);
 		i++;
     }
    
+}
+void sighandler(int sig)
+{
+	write(1,"dkshy nadi",10);
+  exit(1);
 }
 
 int main(int argc , char **argv)
@@ -24,6 +29,7 @@ int main(int argc , char **argv)
     int i;
 
     i =  0;
+    signal(SIGUSR1,sighandler);
     if(argc == 3)
     {
         while(argv[2][i])
@@ -34,5 +40,7 @@ int main(int argc , char **argv)
           send(0,argv[1]);
 	
     }
+	while(1)
+		pause();
     return 0;
 }
